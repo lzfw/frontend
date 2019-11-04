@@ -28,5 +28,41 @@ upgrade:
      - docker-compose pull
      - docker-compose up -d
 
+# stop and tear down containers
+down:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose down
+
+# reload configuration
+reload:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose exec https-proxy bash -c 'nginx -s reload'
+
+# restart containers
+restart:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose restart
+
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
