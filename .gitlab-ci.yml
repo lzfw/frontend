@@ -50,7 +50,7 @@ reload:
   when: manual
   interruptible: false
   script:
-     - docker-compose exec https-proxy bash -c 'nginx -s reload'
+     - docker-compose exec -T https-proxy bash -c 'nginx -s reload'
 
 # restart containers
 restart:
