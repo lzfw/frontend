@@ -33,7 +33,11 @@ Additionally, the EXPOSE entries are used to find the port the container offers 
 
 ### Additional configuration
 Additional vHost configurations, passwords, and server config can be added in the proxy's volumes. Root privileges on the server are required though.
- 
+
+## Headers
+
+The following HTTP headers are calculated by the frontend server and passed to the upstream containers: `Host`, `Upgrade`, `Connection`, `X-Real-IP`, `X-Forwarded-For`, `X-Forwarded-Proto`, `X-Forwarded-Ssl`, `X-Forwarded-Port`
+
 ### Examples
 * https://github.com/lzfw/sammlungsraeume (minimal)
 * https://github.com/lzfw/ns-medical-victims-docker (features containers that are not reachable from the outside world)
