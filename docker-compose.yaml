@@ -46,7 +46,7 @@ services:
        # there are restrictions on /var/run/... so the netdata
        # service can't create a socket either set by systemd or apparmor
        # Debian Bug#946751
-       - /var/lib/netdata/netdata.sock:/netdata.sock
+       - /var/lib/netdata/:/netdata
 
 volumes:
   certs:

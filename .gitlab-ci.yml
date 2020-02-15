@@ -64,5 +64,17 @@ restart:
   script:
      - docker-compose restart
 
+# restart containers
+restart-netdata:
+  retry: 2
+  tags:
+    - shell-production
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose restart netdata
+
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
