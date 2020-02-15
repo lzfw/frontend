@@ -33,6 +33,21 @@ services:
       - proxy-vhosts:/etc/nginx/vhost.d
       - proxy-html:/usr/share/nginx/html
 
+  netdata:
+    image: nginx:alpine
+    restart: always
+    environment:
+       VIRTUAL_HOST: leo-status.halle.tech
+       LETSENCRYPT_HOST: leo-status.halle.tech
+       LETSENCRYPT_EMAIL: '${LETSENCRYPT_EMAIL}'
+       BEHIND_PROXY: 'true'
+    volumes:
+       - ./netdata.conf:/etc/nginx/conf.d/default.conf:ro
+       # there are restrictions on /var/run/... so the netdata
+       # service can't create a socket either set by systemd or apparmor
+       # Debian Bug#946751
+       - /var/lib/netdata/netdata.sock:/netdata.sock
+
 volumes:
   certs:
   conf:
