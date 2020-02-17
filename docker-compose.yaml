@@ -21,8 +21,9 @@ services:
       - proxy-vhosts:/etc/nginx/vhost.d
       - proxy-html:/usr/share/nginx/html
     networks:
-      - default
-      - proxy-network
+      default:
+      proxy-network:
+        ipv4_address: "172.20.0.9"
 
   le-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
