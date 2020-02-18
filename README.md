@@ -49,6 +49,9 @@ The Frontend Server's Docker Compose configuration adds a network named `global-
 Examples of how to become part of the network:
 * https://github.com/lzfw/sammlungsraeume/blob/9ea217c9e633ac5b79236614ed63a9b735e44765/docker-compose.yaml#L13,L19
 
+# FAQ
 
+- Q: Do we have to hard code the proxie's internal IP?
+- A. We don't have to, although some applications prefer to know who the trusted reverse proxies are and only accept IPs for that, notably Drupal. There are work-arounds but time is precious.
 
 
