@@ -52,6 +52,6 @@ Examples of how to become part of the network:
 # FAQ
 
 - Q: Do we have to hard code the proxie's internal IP?
-- A. We don't have to, although some applications prefer to know who the trusted reverse proxies are and only accept IPs for that, notably Drupal. There are work-arounds but time is precious.
+- A. We must not, as long as the entire network is not hardcoded. Otherwise services may fail to start with "address already in use" error.
 
 
