@@ -23,7 +23,8 @@ services:
     networks:
       default:
       proxy-network:
-        ipv4_address: "172.20.0.9"
+        aliases:
+          - https-proxy
 
   le-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
