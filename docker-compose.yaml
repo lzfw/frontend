@@ -39,8 +39,8 @@ services:
     image: nginx:alpine
     restart: always
     environment:
-       VIRTUAL_HOST: leo-status.halle.tech
-       LETSENCRYPT_HOST: leo-status.halle.tech
+       VIRTUAL_HOST: status.leo9000.de
+       LETSENCRYPT_HOST: status.leo9000.de
        LETSENCRYPT_EMAIL: '${LETSENCRYPT_EMAIL}'
        BEHIND_PROXY: 'true'
     volumes:
