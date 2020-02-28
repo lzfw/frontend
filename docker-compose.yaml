@@ -7,6 +7,7 @@ services:
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
     restart: always
+    # run a custom script before starting the proxy
     command: ["/app/leo-cmd.sh", "forego", "start", "-r"]
     environment:
       - DEFAULT_HOST=${DEFAULT_HOST:-sammlungsraeume.de}
@@ -24,6 +25,7 @@ services:
       - proxy-html:/usr/share/nginx/html
     networks:
       default:
+      graylog:
       proxy-network:
         aliases:
           - https-proxy
@@ -62,7 +64,11 @@ volumes:
 
 networks:
   proxy-network:
-   name: global-proxy-network
+    name: global-proxy-network
+  graylog:
+    name: global-log-network
+    # not marked as external although it is to avoid a dependency cycle when
+    # installing the projects
 
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
