@@ -7,12 +7,14 @@ services:
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
     restart: always
+    command: ["/app/leo-cmd.sh", "forego", "start", "-r"]
     environment:
       - DEFAULT_HOST=${DEFAULT_HOST:-sammlungsraeume.de}
     ports:
       - "443:443"
       - "80:80"
     volumes:
+      - ./leo-cmd.sh:/app/leo-cmd.sh
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs:ro
       - conf:/etc/nginx/conf.d

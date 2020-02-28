@@ -34,6 +34,78 @@ Additionally, the EXPOSE entries are used to find the port the container offers 
 ### Additional configuration
 Additional vHost configurations, passwords, and server config can be added in the proxy's volumes. Root privileges on the server are required though.
 
+#### `/var/lib/docker/volumes/frontend-proxy_conf/_data`
+
+```conf
+map $status $accessdenied {
+    401  1;
+    default 0;
+}
+
+geo $external {
+    default        1;
+
+    5.35.251.220    0;
+    2a01:488:67:1000:523:fbdc:0:1   0;
+
+    127.0.0.1      0;
+# We can not trust these IPs as long as IPv6 is enabled on host
+# and disabled in Docker because Docker does IPv4 to IPv6 NAT.
+#    172.16.0.0/12  0;
+#    192.168.0.0/16 0;
+#    10.0.0.0/8     0;
+
+    ::1            0;
+#    fd00::/8       0;
+}
+
+
+log_format fail2ban '$time_local $remote_addr - $remote_user '
+                    'tt-tt $status "$request" $body_bytes_sent '
+                    '"$http_referer" "$http_user_agent"';
+
+log_format gelf_json escape=json '{ "timestamp": "$time_iso8601", '
+         '"remote_addr": "$remote_addr", '
+         '"connection": "$connection", '
+         '"connection_requests": $connection_requests, '
+         '"pipe": "$pipe", '
+         '"body_bytes_sent": $body_bytes_sent, '
+         '"request_length": $request_length, '
+         '"request_time": $request_time, '
+         '"response_status": $status, '
+         '"request": "$request", '
+         '"request_method": "$request_method", '
+         '"host": "$host", '
+         '"upstream_cache_status": "$upstream_cache_status", '
+         '"upstream_addr": "$upstream_addr", '
+#         '"http_x_forwarded_for": "$http_x_forwarded_for", '
+         '"http_referrer": "$http_referer", '
+         '"http_user_agent": "$http_user_agent", '
+         '"http_version": "$server_protocol", '
+         '"remote_user": "$remote_user", '
+#         '"http_x_forwarded_proto": "$http_x_forwarded_proto", '
+         '"upstream_response_time": "$upstream_response_time", '
+         '"nginx_access": true }';
+
+log_format syslog_json escape=json '{ "timestamp": "$time_iso8601", '
+	'"remote_addr": "$remote_addr", '
+	'"body_bytes_sent": $body_bytes_sent, '
+	'"request_time": $request_time, '
+	'"response_status": $status, '
+	'"request": "$request", '
+	'"request_method": "$request_method", '
+	'"host": "$host", '
+	'"upstream_cache_status": "$upstream_cache_status", '
+	'"upstream_addr": "$upstream_addr", '
+	'"http_x_forwarded_for": "$http_x_forwarded_for", '
+	'"http_referrer": "$http_referer", '
+	'"http_user_agent": "$http_user_agent", '
+	'"http_version": "$server_protocol", '
+	'"nginx_access": true }';
+
+access_log /var/log/nginx/ext/accessdenied.log fail2ban if=$accessdenied;
+```
+
 ## Headers
 
 The following HTTP headers are calculated by the frontend server and passed to the upstream containers: `Host`, `Upgrade`, `Connection`, `X-Real-IP`, `X-Forwarded-For`, `X-Forwarded-Proto`, `X-Forwarded-Ssl`, `X-Forwarded-Port`
